@@ -25,5 +25,5 @@ app.use(static(__dirname + '/static'));
 app.use(bodyParser());
 app.use(router());
 
-app.listen(3000);
-console.log('app started at port 3000...');
+app.listen(5002);
+console.log('app started at port 5002...');
