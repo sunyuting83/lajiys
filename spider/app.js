@@ -6,11 +6,7 @@ const HttpGet = require('./httpUtils')
     ,{
       saveNew,
       saveUpdata
-    } = require('./checkdb')
-    ,{
-      getCache,
-      del
-    } = require('../utils/cache');
+    } = require('./checkdb');
 
 let start = async() => {
   const list = makelist()
@@ -69,9 +65,8 @@ let makeCen = async(data) => {
     if(c) {
       json.id = c
       const id = await saveUpdata(json)
-      const key = `movie:${id}`
-      const ck = await getCache(key)
-      if(ck) del(key)
+          , url = `http://127.0.0.1:5002/api/180nm3ysib84?id=movie:${id}`
+      HttpGet(url)
       console.log(id + ' is done')
     }else{
       const id = await saveNew(json,other)
@@ -238,8 +233,8 @@ let getTypeId = (id) => {
 }
 
 start().then(async function() {
-  let c = await getCache('index')
-  if(c) del('index')
+  const url = `http://127.0.0.1:5002/api/180nm3ysib84?id=index`
+  await HttpGet(url)
   console.log('done')
   process.exit();
 })
