@@ -6,27 +6,28 @@ const Movie = require('../model/movie')
     } = require('./cache')
     , {
       makeMovieArr
-    } = require('./utils');
+    } = require('./utils')
+    , getMenu = require('./getMenu');
 
 let getList = async (cid, page) => {
   const key = `list:${cid}.${page}`
   let json = {
-    'classify': {
-      'bigclass': [],
-      'ctitle': '',
-      'smallclass': []
-    },
-    'movies': []
+    'status': 0,
+    'ctitle': '',
+    'movies': [],
+    'menu': [],
+    'menumore': []
   };
+  me = await getMenu()
+  json.menu = me.menu
+  json.menumore = me.menumore
   const c = await getCache(key);
   if(c) {
     json = c
   }else{
-    json['classify']['bigclass'] = await getClassify();
     let thisc = await getCname(cid);
     if (thisc.top_id == 0) thisc.top_id = cid;
-    json['classify']['smallclass'] = await getClassify(thisc.top_id);
-    json['classify']['ctitle'] = thisc.c_name;
+    json.ctitle = thisc.c_name;
     json['movies'] = await getMovie(cid, page);
     const p = {
       key: key,

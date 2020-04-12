@@ -37,22 +37,20 @@ let getMovie = async(id) => {
     data.menu = me.menu
     data.menumore = me.menumore
     data.status = 0
-    data.hotlist = await getNew(d.cid)
+    data.hotlist = await getNew(d.toJSON().cid)
     makeCache(p)
   }
   return data
 };
 
 let getNew = async(cid) => {
-  const d = await Movie.forge({
-    cid: cid
-  })
-  .orderBy('-created_at')
-  .fetchPage({
-    limit: 3,
-    columns: ['id', 'title', 'other']
-  });
-  return makeMovieArr(d);
+  const d = await Movie.query(function (qb) {
+            qb.where({'cid': cid})
+            qb.select('id', 'title', 'other')
+            qb.orderByRaw('random()')
+            qb.limit(3)
+        }).fetchAll()
+  return makeMovieArr(d)
 }
 
 module.exports = getMovie;
