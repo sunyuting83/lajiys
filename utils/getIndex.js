@@ -81,7 +81,7 @@ const makeSmall = async(data) => {
         'top_id': cls.id
       }).fetchPage({
         limit: 4,
-        columns: ['id', 'c_name', 'other']
+        columns: ['id', 'c_name']
       })
       cls.smallclass = sm;
       sm = sm.toJSON();
@@ -105,7 +105,7 @@ const makeSmall = async(data) => {
       .orderBy('created_at', 'DESC')
       .fetchPage({
         limit: 9,
-        columns: ['id', 'title', 'other']
+        columns: ['id', 'title']
       })
       const mov = makeMovieArr(mo);
       cls.movie = mov;

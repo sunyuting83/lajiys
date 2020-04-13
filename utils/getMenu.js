@@ -14,7 +14,7 @@ const getMenu = async() => {
   }else{
     let menu = await Classify.forge()
     .fetchAll({
-      columns: ['id', 'c_name', 'other', 'top_id']
+      columns: ['id', 'c_name', 'top_id']
     })
     menu = menu.toJSON()
     json.menu = menu.filter(x => Number(x.top_id) == 0)
