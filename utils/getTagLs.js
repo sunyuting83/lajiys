@@ -1,13 +1,17 @@
-const Area = require('../model/area'),
-  Director = require('../model/director'),
-  Performer = require('../model/performer')
-  , { makeMovieArr } = require('./utils');
+const Area = require('../model/area')
+    , Director = require('../model/director')
+    , Performer = require('../model/performer')
+    , { makeMovieArr } = require('./utils')
+    , getMenu = require('./getMenu');
 
 let getTagLs = async(type, tag, page) => {
-  
     let json = {
+      'status': 0,
       'movies': []
     };
+    me = await getMenu()
+    json.menu = me.menu
+    json.menumore = me.menumore
     let t;
     switch (type) {
       case 'area':
@@ -23,10 +27,12 @@ let getTagLs = async(type, tag, page) => {
         t = Area;
         break;
     };
-    json.movies = await getMovie(t, tag, page);
+    const gm = await getMovie(t, tag, page, type);
+    json.movies = gm[0]
+    json.ctitle = gm[1]
     return json
 };
-let getMovie = (types, tag, page) => {
+let getMovie = (types, tag, page, tt) => {
   let offset = 0;
   if (page === 1 || !page) {
     offset = 0
@@ -35,6 +41,7 @@ let getMovie = (types, tag, page) => {
   } else {
     offset = (page - 1) * 30
   };
+  const ctitle = getTitle(tt)
   return types.where({
         'id': tag
       })
@@ -47,14 +54,29 @@ let getMovie = (types, tag, page) => {
             qb.limit(30).orderBy('created_at', 'DESC');
           },
         }],
-        columns: ['id', 'count']
+        columns: ['id', 'count', ctitle]
       }).then((mov) => {
-        let rt = mov.toJSON().movie;
-        let count = mov.toJSON().count;
+        const d = mov.toJSON()
+            , rt = d.movie
+            , count = d.count;
+        let t;
+        switch (tt) {
+          case 'area':
+            t = d.a_name
+            break;
+          case 'director':
+            t = d.d_name
+            break;
+          case 'performer':
+            t = d.p_name
+            break;
+          default:
+            break;
+        }
         mov.save({
           count: parseInt(count + 1)
         });
-        if (rt !== undefined) return (makeId(rt));
+        if (rt !== undefined) return ([makeId(rt), t]);
         return ([]);
       }).catch((err) => {
         console.error(err)
@@ -74,6 +96,25 @@ let makeId = (arr) => {
   })
   return arr;
 };
+
+let getTitle = (types) => {
+  // console.log(types)
+  let ctitle
+  switch (types) {
+    case 'area':
+      ctitle = 'a_name'
+      break;
+    case 'director':
+      ctitle = 'd_name'
+      break;
+    case 'performer':
+      ctitle = 'p_name'
+      break;
+    default:
+      break;
+  }
+  return ctitle
+}
 
 
 module.exports = getTagLs;

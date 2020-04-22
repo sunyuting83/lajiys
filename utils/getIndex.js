@@ -16,7 +16,7 @@ const getIndex = async() => {
       'menu': [],
       'menumore': [],
       'movielist': [],
-      'notice': '这是一条最新的公告'
+      'notice': ['这是一条最新的公告','这是二条最新的公告']
     }
   me = await getMenu()
   json.menu = me.menu
