@@ -1,0 +1,11 @@
+{
+  "client": "mysql",
+  "connection": {
+    "host"     : "remotemysql.com",
+    "user"     : "6im8Wt07AA",
+    "password" : "0SbECSXDHo",
+    "database" : "6im8Wt07AA",
+    "charset"  : "utf8"
+  },
+  "useNullAsDefault": true
+}
