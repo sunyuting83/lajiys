@@ -33,7 +33,7 @@ const fn_searchot = async (ctx, next) => {
 };
 
 module.exports = {
-  'GET /api/getsearchkey': fn_key,
+  'GET /api/getkey': fn_key,
   'GET /api/search': fn_search,
   'GET /api/gethot': fn_searchot
 };

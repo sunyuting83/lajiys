@@ -12,7 +12,8 @@ const Movie = require('../model/movie'),
 
 let getSearchKey = (key) => {
   return Movie.query((qb) => {
-      qb.where('title', 'LIKE', '%' + key + '%', 'or', 'entitle', 'LIKE', '%' + key + '%');
+      qb.where('title', 'LIKE', '%' + key + '%');
+      qb.orWhere('entitle', 'LIKE', '%' + key + '%');
       qb.groupBy('id');
     })
     .orderBy('created_at', 'DESC')
@@ -35,7 +36,8 @@ let getSearchKey = (key) => {
 
 let getSearch = (word, p) => {
   return Movie.query((qb) => {
-      qb.where('title', 'LIKE', '%' + word + '%', 'or', 'entitle', 'LIKE', '%' + word + '%');
+      qb.where('title', 'LIKE', '%' + word + '%');
+      qb.orWhere('entitle', 'LIKE', '%' + word + '%');
       qb.groupBy('id');
     })
     .orderBy('created_at', 'DESC')
@@ -46,10 +48,8 @@ let getSearch = (word, p) => {
     })
     .then((data) => {
       if (data) {
-        saveKey(word);
-        return ({
-          'movies': makeMovieArr(data)
-        });
+        if(data.length > 0) saveKey(word);
+        return makeMovieArr(data);
       }
     })
     .catch((err) => {
