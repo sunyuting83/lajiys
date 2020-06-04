@@ -56,7 +56,7 @@ let getClassify = async(id) => {
           'cid', '=', s.id
         )
       })
-      .orderBy('created_at', 'DESC')
+      .orderBy('id', 'DESC')
       .fetchPage({
         limit: 9,
         columns: ['id', 'title', 'cid', 'other']

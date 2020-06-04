@@ -51,7 +51,7 @@ let getMovie = (types, tag, page, tt) => {
           'movie': (qb) => {
             qb.offset(offset);
             qb.columns(['title', 'cid', 'other', 'created_at']);
-            qb.limit(30).orderBy('created_at', 'DESC');
+            qb.limit(30).orderBy('id', 'DESC');
           },
         }],
         columns: ['id', 'count', ctitle]

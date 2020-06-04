@@ -102,7 +102,7 @@ const makeSmall = async(data) => {
           );
         }
       })
-      .orderBy('created_at', 'DESC')
+      .orderBy('id', 'DESC')
       .fetchPage({
         limit: 9,
         columns: ['id', 'title', 'other']

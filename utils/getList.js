@@ -65,7 +65,7 @@ let getMovie = (cid, p) => {
 return Movie.where({
     'cid': cid
   })
-  .orderBy('created_at', 'DESC')
+  .orderBy('id', 'DESC')
   .fetchPage({
     pageSize: 30,
     page: p,

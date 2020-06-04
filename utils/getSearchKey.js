@@ -16,7 +16,7 @@ let getSearchKey = (key) => {
       qb.orWhere('entitle', 'LIKE', '%' + key + '%');
       qb.groupBy('id');
     })
-    .orderBy('created_at', 'DESC')
+    .orderBy('id', 'DESC')
     .fetchPage({
       limit: 7,
       columns: ['id', 'title']
@@ -40,7 +40,7 @@ let getSearch = (word, p) => {
       qb.orWhere('entitle', 'LIKE', '%' + word + '%');
       qb.groupBy('id');
     })
-    .orderBy('created_at', 'DESC')
+    .orderBy('id', 'DESC')
     .fetchPage({
       pageSize: 30,
       page: p,
