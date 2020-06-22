@@ -1,6 +1,6 @@
 const {get, put} = require('./hkdb')
 const sortNumber = (a,b) => {
-  return b.id - a.id
+  return b.click - a.click
 };
 
 const getHotKey = async() => {
